@@ -12,6 +12,7 @@ update_id        = "F-111C",
 version		 = "Testing",
 state		 = "installed",
 info		 = _("More is to be developed"),
+binaries = { 'BasicEFM_template.dll', },
 
 Skins	=
 	{
@@ -45,11 +46,17 @@ mount_vfs_model_path	(current_mod_path.."/Shapes")
 mount_vfs_liveries_path (current_mod_path.."/Liveries")
 mount_vfs_texture_path  (current_mod_path.."/Textures/F-111C")
 mount_vfs_texture_path  (current_mod_path.."/Textures/F111Pit")
+mount_vfs_model_path	(current_mod_path.."/Cockpit/Shapes")
 mount_vfs_sound_path    (current_mod_path.."/Sounds")
 -------------------------------------------------------------------------------------
 dofile(current_mod_path.."/LUA/Views_F111Pit.lua")
 make_view_settings('F-111C', ViewSettings, SnapViews)
-make_flyable('F-111C',current_mod_path..'/Cockpit/Scripts/', {nil, old = 54}, current_mod_path..'/comm.lua') -- SFM + Su-25T Avionics
+make_flyable('F-111C',current_mod_path..'/Cockpit/Scripts/', FM, current_mod_path..'/comm.lua') 
+local cfg_path = current_mod_path .."/FM/config.lua"
+dofile(cfg_path)
+FM[1] 		= self_ID
+FM[2] 		= 'BasicEFM_template.dll'
+FM.config_path 	= cfg_path
 -------------------------------------------------------------------------------------
 dofile(current_mod_path..'/F-111C.lua')
 -------------------------------------------------------------------------------------

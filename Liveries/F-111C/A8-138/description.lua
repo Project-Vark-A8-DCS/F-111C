@@ -15,4 +15,4 @@ livery = {
 	{"Misc",		NORMAL_MAP			,	"Misc_Normal", true};
 	{"Misc",		ROUGHNESS_METALLIC	,	"Misc_Lizard_RoughMet", false};
 }
-name = 	"A8-138 Amberley Gate Guard"
+name = 	"A8-138"

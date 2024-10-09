@@ -3,8 +3,11 @@ local function counter()
 	count = count + 1
 	return count
 end
--------DEVICE ID-------
+-------DEVICE ID----------
 devices = {}
-devices["KNEEBOARD"]				= counter()--01
-devices["SYSTEM"]					= counter()--02
-devices["DARKEN_HUD_SYSTEM"]		= counter()
+devices["ELECTRIC_SYSTEM"] 		= counter()
+devices["WEAPON_SYSTEM"]        = counter() --Nummer 4
+devices["WEAPON_PANEL"]			= counter() --Nummer 5
+devices["WING_SWEEP"]			= counter()
+devices["TAIL_HOOK"]			= counter()
+

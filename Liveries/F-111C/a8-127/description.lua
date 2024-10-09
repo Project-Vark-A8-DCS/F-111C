@@ -15,4 +15,4 @@ livery = {
 	{"Misc",		NORMAL_MAP			,	"Misc_Normal", true};
 	{"Misc",		ROUGHNESS_METALLIC	,	"Misc_Lizard_RoughMet", false};
 }
-name = 	"A8-127 RAAF 1SQN"
+name = 	"A8-127"

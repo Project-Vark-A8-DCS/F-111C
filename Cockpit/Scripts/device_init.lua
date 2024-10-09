@@ -1,19 +1,52 @@
-dofile(LockOn_Options.common_script_path.."tools.lua")
 dofile(LockOn_Options.script_path.."devices.lua")
+dofile(LockOn_Options.common_script_path.."tools.lua")
+dofile(LockOn_Options.common_script_path.."KNEEBOARD/declare_kneeboard_device.lua")
 
-attributes = {
-	"support_for_cws",
-}
 
+-- set panel
+layoutGeometry = {}
+
+
+---------------------------------------------
 MainPanel = {"ccMainPanel",LockOn_Options.script_path.."mainpanel_init.lua"}
 
 creators = {}
 
-creators[devices.KNEEBOARD] 					= {"avKneeboard",LockOn_Options.common_script_path.."KNEEBOARD/device/init.lua"}
-creators[devices.SYSTEM]						= {"avLuaDevice",LockOn_Options.script_path.."SYSTEM/init.lua"}
-creators[devices.DARKEN_HUD_SYSTEM] 			= {"avLuaDevice",LockOn_Options.script_path.."SYSTEM/DARKEN_HUD_System.lua"}
+creators[devices.WING_SWEEP]				= {"avLuaDevice",			LockOn_Options.script_path.."Systems/simple_wingsweep.lua"}
+creators[devices.WEAPON_SYSTEM]				= {"avSimpleWeaponSystem",	LockOn_Options.script_path.."Systems/weaponsys.lua"}
+creators[devices.ELECTRIC_SYSTEM] 			= {"avSimpleElectricSystem",LockOn_Options.script_path.."avRWR_example/miscSystems/simple_electric_system.lua"}
+creators[devices.TAIL_HOOK]					= {"avLuaDevice",			LockOn_Options.script_path.."Systems/tailhook.lua"}
 
-indicators = {}
+indicators = {} 
 
-indicators[#indicators + 1]	= {"ccKneeboard",LockOn_Options.common_script_path.."KNEEBOARD/indicator/init.lua",devices.KNEEBOARD,{{},{sx_l = -0.65,sz_l =  0.15,sy_l = -0.5,ry_l =  10, rz_l = 85 ,sw = 0.142 * 0.5 - 0.1,sh = 0.214 * 0.5 - 0.1},nil}}
----------------------------------------------
+dofile(LockOn_Options.script_path.."avRWR_example/rwrexample_device_init.lua")
+
+indicators[#indicators + 1] = {"ccIndicator", LockOn_Options.script_path.."avRWR_example/indicator/init.lua",	--init script
+ nil, 
+    {
+		{"RADAR-PLASHKA-CENTER", "RADAR-PLASHKA-DOWN", "RADAR-PLASHKA-RIGHT"},	-- initial geometry anchor , triple of connector names. Mal zunächst nur 3 statt 4 ILS-PLASHKE-UP mal ausgelassen
+		{sx_l =  0,  -- center position correction in meters (+forward , -backward)
+		 sy_l =  0,  -- center position correction in meters (+up , -down)
+		 sz_l =  0,  -- center position correction in meters (-left , +right)
+		 sh   =  0,  -- half height correction 
+		 sw   =  0,  -- half width correction 
+		 rz_l =  0,  -- rotation corrections  
+		 rx_l =  0,
+		 ry_l =  0}
+	}	
+}
+
+indicators[#indicators + 1] = {"ccIndicator", LockOn_Options.script_path.."LCOS/Indicator/init.lua",	--init script
+ nil, 
+    {
+		{"PNT-HUD-CENTER", "PNT-HUD-DOWN", "PNT-HUD-RIGHT"},	-- initial geometry anchor , triple of connector names. Mal zunächst nur 3 statt 4 ILS-PLASHKE-UP mal ausgelassen
+		{sx_l =  0,  -- center position correction in meters (+forward , -backward)
+		 sy_l =  -0.03,  -- center position correction in meters (+up , -down)
+		 sz_l =  -0.005,  -- center position correction in meters (-left , +right)
+		 sh   =  0,  -- half height correction 
+		 sw   =  0,  -- half width correction 
+		 rz_l =  0,  -- rotation corrections  
+		 rx_l =  0,
+		 ry_l =  0}
+	}	
+}

@@ -1,3 +1,9 @@
+--mounting 3d model paths and texture paths 
+mount_vfs_model_path	(current_mod_path.."/Shapes")
+mount_vfs_liveries_path (current_mod_path.."/Liveries")
+mount_vfs_texture_path  (current_mod_path.."/Textures/F-111C")
+mount_vfs_model_path	(current_mod_path.."/Cockpit/Shapes")
+mount_vfs_sound_path    (current_mod_path.."/Sounds")
 
 F111C = {
     Name          = 'F-111C',
@@ -103,7 +109,7 @@ thrust_sum_max                  = 8119.3034,        -- thrust in kgf
 has_afterburner                 = true,
 has_differential_stabilizer     = false,
 thrust_sum_ab                   = 11385.168,        -- thrust in kgf with afterburner
-average_fuel_consumption        = 0.271,            -- average fuel consumption
+average_fuel_consumption        = 0.001,            -- average fuel consumption
 is_tanker                       = false,
 tanker_type                     = 1,                -- tanker type
 air_refuel_receptacle_pos       = {0.4935, 1.492, -0.4238},           -- receptacle for plane
@@ -169,14 +175,14 @@ crew_members                       =
      ejection_seat_name            = 9,
      pilot_name                    = 19,
      drop_canopy_name              = "su-24-fonar-1",
-     pos                           = {5.25, 1.0, -0.42},
+     pos                           = {-5.25, 1.0, -0.42},
  }, -- end of [1]
  [2]=
  {
      ejection_seat_name            = 9,
      pilot_name                    = 19,
      drop_canopy_name              = "su-24-fonar-r",
-     pos                           = {5.25, 1.0, 0.42},            -- changes the position of the cockpit view    
+     pos                           = {-5.25, 1.0, 0.42},            -- changes the position of the cockpit view    
  }, -- end of [2]
 }, --end of crew_members
 
@@ -278,74 +284,95 @@ aircraft_task(Escort),
 DefaultTask = aircraft_task(GroundAttack),
 
 SFM_Data = {
-	aerodynamics = -- F15
+	aerodynamics = -- Cx = Cx_0 + Cy^2*B2 +Cy^4*B4
 		{
-			Cy0	=	0,                            --Base lateral force coefficient (typically represents the side force coefficient at zero AoA and 0 sideslip)
-			Mzalfa	=	5.8,                      --Pitching moment coefficient derivative with respect to the AoA (how pitching moment changes the AoA)
-			Mzalfadt	=	1.2,                  --Pitching moment coefficient derivative with respect to the rate of change of the AoA
-			kjx = 3.1,                            --Roll damping coefficient (represents the damping effect in the roll axis)
-			kjz = 0.0015,                         --Yaw damping coefficient (represents the damping effect in the yaw axis)
-			Czbe = -0.018,                        --Yaw moment coefficient derivative with respect to sideslip angle
-			cx_gear = 0.021,                      --Incremental drag coefficient due to the landing gear being deployed
-			cx_flap = 0.06,                       --Incremental drag coefficient due to the flaps being deployed
-			cy_flap = 0.30,                       --Incremental lift coefficient due to the flaps being deployed
-			cx_brk = 0.07,                        --Incremental drag coefficient due to the airbrake being deployed
-			table_data = 
-			{
-			--      M	 Cx0		 Cya		 B		 B4	      Omxmax	Aldop	Cymax
-				{0.0,	0.01,		0.055,		0.02,		0.09,	0.65,	24.0,	1.1 	}, --M: Mach Number
-				{0.2,	0.01,		0.09,		0.02,		0.09,	1.80,	24.0,	1.1     }, --Cx0: Zero-lift drag coefficient (how much drag with no lift)
-				{0.4,	0.01,		0.09,		0.02,	   	0.09,	3.00,	24.0,	1.1     }, --Cya: Lift coefficient derivative with respect to the AoA (lift increases whilst AoA increases)
-				{0.6,	0.01,		0.09,		0.02,		0.09,	4.20,	24.0,	1.1     }, --B: Induced drag factor or coefficient (how much extra drag is created because of wing's)
-				{0.7,	0.01,		0.09,		0.02,		0.09,	4.20,	22.0,	1.05    }, --B4: Higher-order induced drag factor (complicated version of B)
-				{0.8,	0.01,		0.09,		0.02,		0.09,	4.20,	20.5,	1.0     }, --Omxmax: Max roll rate
-				{0.9,	0.027,		0.053,		0.1,		0.22,	4.20,	19.0,	1.00    }, --Aldop: Max allowable AoA
-				{1.0,	0.0320,		0.062,		0.17,		0.15,	4.20,	18.9,	1.04    }, --Cymax: Max lift coefficient (most amount of lift)
-				{1.1,	0.0430,		0.062,	   	0.235,		0.09,	3.78,	17.4,	1.02    }, 
-				{1.2,	0.0460,		0.062,	   	0.285,		0.08,	2.94,	17.0,	1.00 	}, 
-				{1.3,	0.0470,		0.06,	   	0.29,		0.10,	2.10,	16.0,	0.92 	},				
-				{1.4,	0.0470,		0.056,	   	0.3,		0.136,	1.80,	15.0,	0.80 	},					
-				{1.6,	0.0470,		0.052,	   	0.34,		0.21,	1.08,	13.0,	0.7 	},					
-				{1.8,	0.0460,		0.042,	   	0.34,		2.43,	0.96,	12.0,	0.55 	},		
-				{2.2,	0.0420,		0.037,	   	0.49,		3.5,	0.84,	 10.0,	0.37 	},					
-				{2.5,	0.0420,		0.033,		0.6,		4.7,	0.84,	 9.0,	0.3 	},		
-				{3.9,	0.0400,		0.023,		0.9,		6.0,	0.84,	 7.0,	0.2		},
+			Cy0			=	0,      -- zero AoA lift coefficient
+			Mzalfa		=	4.355,  -- coefficients for pitch agility
+			Mzalfadt	=	0.8,    -- coefficients for pitch agility
+			kjx			=	2.3,    
+			kjz			=	0.0011, 
+			Czbe		=	-0.014, -- coefficient, along Z axis (perpendicular), affects yaw, negative value means force orientation in FC coordinate system
+			cx_gear		=	0.3,    -- coefficient, drag, gear
+			cx_flap		=	0.08,   -- coefficient, drag, full flaps
+			cy_flap		=	0.4,    -- coefficient, normal force, lift, flaps
+			cx_brk		=	0.08,   -- coefficient, drag, breaks
+			table_data  = 
+			{	--      M		Cx0		 	Cya			B		 	B4	    	Omxmax		Aldop		Cymax
+				[1] = 	{0.0,	    0.024,	0.07,	0.075,	0.12,	0.5,											30					,	1.2},
+				[2] = 	{0.2,	0.024,	0.07,	0.075,	0.12,	1.5,										30					,	1.2},
+				[3] = 	{0.4,	0.024,	0.07,	0.075,	0.12,	2.5,										30					,	1.2},
+				[4] = 	{0.6,	0.0239,	0.073,	0.075,	0.12,	3.5,										30					,	1.2},
+				[5] = 	{0.7,	0.024,	0.076,	0.075,	0.12,	3.5,										28.666666666667		,	1.18},
+				[6] = 	{0.8,	0.0235,	0.079,	0.075,	0.12,	3.5,										27.333333333333		,	1.16},
+				[7] = 	{0.9,	0.025,	0.083,	0.075,	0.125,	3.5,										26					,	1.14},
+				[8] = 	{1.0	,0.044,	0.085,	0.14,	0.1,	3.5,										24.666666666667		,	1.12},
+				[9] = 	{1.05,	0.0465,	0.0855,	0.1775,	0.125,	3.5,										24					,	1.11},
+				[10] = 	{1.1,	0.049,	0.086,	0.215,	0.15,	3.15,										18			,	1.1},
+				[11] = 	{1.2,	0.049,	0.083,	0.228,	0.17,	2.45,										17,	1.05},
+				[12] = 	{1.3,	0.049,	0.077,	0.237,	0.2,	1.75,										16,	1},
+				[13] = 	{1.5,	0.0475,	0.062,	0.251,	0.2,	1.5,										13,	0.9},
+				[14] = 	{1.7,	0.045166666666667,	0.051333333333333,	0.24366666666667,	0.32,	0.9,	12,	0.7},
+				[15] = 	{1.8,	0.044,	0.046,	0.24,	0.38,	0.86,										11.4,	0.64},
+				[16] = 	{2,	0.043,	0.039,	0.222,	2.5,	0.78,											10.2,	0.52},
+				[17] = 	{2.2,	0.041,	0.034,	0.227,	3.2,	0.7,										9,	0.4},
+				[18] = 	{2.5,	0.04,	0.033,	0.25,	4.5,	0.7,										9,	0.4},
+				[19] = 	{3.9,	0.035,	0.033,	0.35,	6,		0.7,										9,	0.4},
 			}, -- end of table_data
+			-- M - Mach number
+			-- Cx0 - Coefficient, drag, profile, of the airplane
+			-- Cya - Normal force coefficient of the wing and body of the aircraft in the normal direction to that of flight. Inversely proportional to the available G-loading at any Mach value. (lower the Cya value, higher G available) per 1 degree AOA
+			-- B - Polar quad coeff
+			-- B4 - Polar 4th power coeff
+			-- Omxmax - roll rate, rad/s
+			-- Aldop - Alfadop Max AOA at current M - departure threshold
+			-- Cymax - Coefficient, lift, maximum possible (ignores other calculations if current Cy > Cymax)
 		}, -- end of aerodynamics
 		engine = 
 		{
-			Nmg	       =	67.5,
-			MinRUD	   =	0,
-			MaxRUD	   =	1,
-			MaksRUD	   =	0.85,
-			ForsRUD	   =	0.91,
-			type	   =	"TurboFan",
-			hMaxEng	   =	19.5,
-			dcx_eng	   =	0.0114,
-			cemax	   =	1.24,
-			cefor	   =	2.56,
-			dpdh_m	   =	6000,
-			dpdh_f	   =	14000.0,
-			table_data = {
-			--   M		Pmax		 Pfor
-				{0.0,	115000,		212000},
-				{0.2,	 94000,		200000},
-				{0.4,	 92000,		205000},
-				{0.6,	103000,		207000},
-				{0.7,	105000,		210000},
-				{0.8,	105000,		220000},
-				{0.9,	105000,		235000},
-				{1.0,	107000,		250000},
-				{1.1,	103000,		258000},
-				{1.2,	 94000,		268000},
-				{1.3,	 84000,		285000},
-				{1.4,	 71000,		300000},
-				{1.6,	 34000,		318000},
-				{1.8,	 19000,		337000},
-				{2.2,	 17000,		370000},
-				{2.5,	 19000,		390000},
-				{3.9,	 82000,		310000},
+			Nmg	=	62, -- RPM at idle
+			MinRUD	=	0, -- Min state of the throttle
+			MaxRUD	=	1, -- Max state of the throttle
+			MaksRUD	=	0.85, -- Military power state of the throttle
+			ForsRUD	=	0.91, -- Afterburner state of the throttle
+			typeng	=	1,
+			--[[
+				E_TURBOJET = 0
+				E_TURBOJET_AB = 1
+				E_PISTON = 2
+				E_TURBOPROP = 3
+				E_TURBOFAN				= 4
+				E_TURBOSHAFT = 5
+			--]]
+			
+			hMaxEng	=	19, -- Max altitude for safe engine operation in km
+			dcx_eng	=	0.0124, -- Engine drag coeficient
+			cemax	=	1.24, -- not used for fuel calulation , only for AI routines to check flight time ( fuel calculation algorithm is built in )
+			cefor	=	2.56, -- not used for fuel calulation , only for AI routines to check flight time ( fuel calculation algorithm is built in )
+			dpdh_m	=	2000, --  altitude coefficient for max thrust
+			dpdh_f	=	4200,  --  altitude coefficient for AB thrust
+			table_data = 
+			{		--   M		Pmax		 Pfor	
+				[1] = 	{0,	88000,	141000},
+				[2] = 	{0.2,	80000,	143000},
+				[3] = 	{0.4,	79000,	150000},
+				[4] = 	{0.6,	82000,	165000},
+				[5] = 	{0.7,	90000,	177000},
+				[6] = 	{0.8,	94000,	193000},
+				[7] = 	{0.9,	96000,	200000},
+				[8] = 	{1,	100000,	205000},
+				[9] = 	{1.1,	100000,	214000},
+				[10] = 	{1.2,	98000,	222000},
+				[11] = 	{1.3,	100000,	235000},
+				[12] = 	{1.5,	98000,	258000},
+				[13] = 	{1.8,	94000,	276000},
+				[14] = 	{2,	88000,	283000},
+				[15] = 	{2.2,	82000,	285000},
+				[16] = 	{2.5,	80000,	287000},
+				[17] = 	{3.9,	50000,	200000},
 			}, -- end of table_data
+			-- M - Mach number
+			-- Pmax - Engine thrust at military power
+			-- Pfor - Engine thrust at AFB
 		}, -- end of engine
     },
 
@@ -413,7 +440,7 @@ SFM_Data = {
                         typename = "argumentlight", argument = 209,
                         exposure = {{0, 0.9, 1.0}}, movable = true,
 					},	
-                },
+                }, 
             },
         },
     },
