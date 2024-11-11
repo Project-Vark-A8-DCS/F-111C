@@ -1,4 +1,4 @@
-shape_name   	   = "F-111C_Cockpit"
+shape_name   	   = "F-111CPit.edm"
 is_EDM			   = true
 new_model_format   = true
 

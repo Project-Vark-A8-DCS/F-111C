@@ -12,7 +12,7 @@ update_id        = "F-111C",
 version		 = "Testing",
 state		 = "installed",
 info		 = _("More is to be developed"),
-binaries = { 'BasicEFM_template.dll', },
+binaries = { 'F-111C.dll', },
 
 Skins	=
 	{
@@ -55,14 +55,14 @@ make_flyable('F-111C',current_mod_path..'/Cockpit/Scripts/', FM, current_mod_pat
 local cfg_path = current_mod_path .."/FM/config.lua"
 dofile(cfg_path)
 FM[1] 		= self_ID
-FM[2] 		= 'BasicEFM_template.dll'
+FM[2] 		= 'F-111C.dll'
 FM.config_path 	= cfg_path
 -------------------------------------------------------------------------------------
 dofile(current_mod_path..'/F-111C.lua')
 -------------------------------------------------------------------------------------
 dofile(current_mod_path.."/Weapons/AGLoadout.lua")
 -------------------------------------------------------------------------------------
-local cfg_path =current_mod_path.."/FM/F15/config.lua"
+local cfg_path =current_mod_path.."/FM/config.lua"
 dofile(cfg_path)
 -------------------------------------------------------------------------------------
 plugin_done()
