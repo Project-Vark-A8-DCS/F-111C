@@ -72,13 +72,13 @@ Categories  = {"{78EFB7A2-FD52-4b57-A6A6-3BF0E1D6555F}", "Interceptor",},
 M_empty                         = 21319,            -- (empty weight of F-111C in KG)
 M_nominal                       = 36141,            -- (empty with max fuel and crew)
 M_max                           = 49900,            -- (MTOW of F-111C)
-M_fuel_max                      = 14741,            -- (Internal fuel only)
+M_fuel_max                      = 14211,            -- (Internal fuel only)
 H_max                           = 20000,            -- (Maximum Altitude)
 
 length                          = 22.4,                                       -- full length in m
-height                          = 6.2,                                        -- height in m
-wing_area	=	61,
-wing_span	=	19.2,
+height                          = 5.22,                                        -- height in m
+wing_area                   	= 52.5,
+wing_span                   	= 21.336,
 wing_tip_pos                    = {-4.38635,	0.839957,	8.77139},            -- wingtip coords for visual effects N/A currently
 wing_type                       = 1,                                          -- FIXED_WING = 0 / VARIABLE_GEOMETRY = 1 / FOLDED_WING = 2 / ARIABLE_GEOMETRY_FOLDED = 3
 flaps_maneuver                  = 0.5,                                        -- Max flaps in take-off and maneuver (0.5 = 1st stage; 1.0 = 2nd stage) (for AI)
@@ -109,7 +109,7 @@ thrust_sum_max                  = 8119.3034,        -- thrust in kgf
 has_afterburner                 = true,
 has_differential_stabilizer     = false,
 thrust_sum_ab                   = 11385.168,        -- thrust in kgf with afterburner
-average_fuel_consumption        = 0.001,            -- average fuel consumption
+average_fuel_consumption        = 0.37,            -- average fuel consumption
 is_tanker                       = false,
 tanker_type                     = 1,                -- tanker type
 air_refuel_receptacle_pos       = {0.4935, 1.492, -0.4238},           -- receptacle for plane
